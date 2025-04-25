@@ -1,0 +1,18 @@
+from users.models import Role
+
+# Define the roles
+roles_data = [
+    {'name': 'PRINCIPAL'},
+    {'name': 'VICE_PRINCIPAL'},
+    {'name': 'HOD'},
+    {'name': 'EXAM'},
+    {'name': 'EVENT_CO_ORDINATOR'},
+    {'name': 'IQUAC'},
+]
+
+# Create roles
+for role_data in roles_data:
+    Role.objects.create(**role_data)
+
+# Verify the roles have been created
+Role.objects.all()

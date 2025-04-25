@@ -1,0 +1,41 @@
+{% extends 'base_dashboard.html' %}
+
+{% block welcome_card %}
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container my-4">
+    <h2>Upload Document</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group my-4 col-sm-4">
+            <label for="docType">Document Type</label>
+            <select class="form-control" id="docType" name="docType">
+                <option value="" disabled selected>Select Document Type</option>
+                {% for doc in docTypes %}
+                    <option value="{{ doc.id }}">{{ doc }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group my-4 col-sm-4">
+            <label for="name">Name of the document</label>
+            <input type='text' class="form-control" id="name" name="name" placeholder="Name of the document">
+        </div>
+        
+        <div class="form-group my-4 col-sm-4">
+            <label for="file">Upload file</label>
+            <input type='file' class="form-control" id="file" name="file">
+        </div>
+        
+        <button type="submit" class="btn btn-success my-4">Submit</button>
+        <a href="javascript:history.go(-1)" class="btn btn-secondary my-4 mx-2">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

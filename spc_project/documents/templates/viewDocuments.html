@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2 class="my-4">{{ dept }}</h2>
+
+  <div class="container my-4">
+    <table class="table table-bordered table-striped table-hover col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Stream</th>
+          <th scope="col">Department</th>
+          <th scope="col">Document Type</th>
+          <th scope="col">Document</th>
+        </tr>
+      </thead>
+
+      {% for doc in docs %}
+        <tr>
+          <td>{{ doc.name }}</td>
+          <td>{{ doc.department.stream }}</td>
+          <td>{{ doc.department.name }}</td>
+          <td>{{ doc.documentType }}</td>
+          <td> 
+            {% if doc.file %}
+              <a href='{{ doc.file.url }}' target="blank">{{ doc.name }}</a>
+            {% else %}
+              No file available
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <hr class="my-4" />
+  </div>
+{% endblock %}

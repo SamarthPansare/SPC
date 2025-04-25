@@ -1,0 +1,19 @@
+<!-- your_template.html -->
+{% extends "base.html" %}
+{% block content %}
+    <h2 class="my-4">Select a Stream</h2>
+    <form method="post" action="/stream">
+        {% csrf_token %}
+        
+        <div class="form-group my-4 col-sm-4">
+            <select class="form-control" id="stream" name="stream" required>
+                <option value="" disabled selected>Select Stream</option>
+                {% for stream in streams %}
+                    <option value="{{ stream.id }}">{{ stream }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-success my-4">Submit</button>
+    </form>
+{% endblock %}

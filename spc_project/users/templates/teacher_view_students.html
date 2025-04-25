@@ -1,0 +1,40 @@
+{% extends 'base_dashboard.html' %}
+
+{% block welcome_card %}
+
+{% endblock %}
+
+{% block content %}
+  <h2 class="my-4">{{ teacher.department }}</h2>
+
+  <div class="container my-4">
+    <table class="table table-bordered table-striped table-hover col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col">User Name</th>
+          <th scope="col">PRN</th>
+          <th scope="col">Email</th>
+          <th scope="col">Batch Year</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      {% for student in students %}
+        <tr>
+          <td>{{ student.user.username }}</td>
+          <td>{{ student.PRN }}</td>
+          <td>{{ student.user.email }}</td>
+          <td>{{ student.batch_year }}</td>
+          <td>
+            <!-- Update button -->
+            <form action="{% url 'update-student' student.user.id %}" method="post" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary btn-sm">Update</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <hr class="my-4" />
+  </div>
+{% endblock %}

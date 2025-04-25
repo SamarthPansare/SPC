@@ -1,0 +1,27 @@
+{% extends 'base_dashboard.html' %}
+
+{% block welcome_card %}
+  <!-- Display welcome card -->
+  {{ block.super }}
+{% endblock %}
+
+
+{% block content %}
+  <!-- For loop to display cards dynamically -->
+  <!-- Display common features -->
+  <div class="row mb-4">
+    {% for feature, data in common_features.items %}
+      <div class="col-md-4 mb-4">
+        <a href="{% url data.url %}" class="text-decoration-none">
+          <div class="card shadow p-3 bg-info rounded">
+            <div class="card-body">
+              <h5 class="card-title text-success border-bottom">{{ feature }}</h5>
+              <p class="card-text text-white">{{ data.description }}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+
+  </div>
+{% endblock %}

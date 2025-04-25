@@ -1,0 +1,26 @@
+<!-- register_student.html -->
+{% extends 'base_dashboard.html' %}
+
+{% block welcome_card %}
+
+{% endblock %}
+
+
+{% block content %}
+  <div class="mb-4">
+    <div class="card shadow">
+      <div class="card-header">
+        <h2 class="card-title p-3">Register Student</h2>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          {{ student_form.as_p }}
+          <button type="submit" class="btn btn-success my-4">Register</button>
+          <a href="javascript:history.go(-1)" class="btn btn-secondary my-4 mx-2">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

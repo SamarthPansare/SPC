@@ -1,0 +1,102 @@
+# Start the Django shell
+# python manage.py shell
+
+# Import the relevant models
+from documents.models import Stream, DocumentCategory, Department, DocumentType, Document
+
+#------------------------------------------------------------------------------------------------
+
+# Create Stream objects if they don't exist
+science_stream, _ = Stream.objects.get_or_create(name='Science')
+commerce_stream, _ = Stream.objects.get_or_create(name='Commerce')
+arts_stream, _ = Stream.objects.get_or_create(name='Arts')
+
+# Create Department objects for Science Stream if they don't exist
+departments_science = [
+    'BOTANY', 'CHEMISTRY', 'COMPUTER SCIENCE', 'ELECTRONICS',
+    'ENVIRONMENTAL', 'GEOGRAPHY', 'MATHEMATICS', 'PHYSICS',
+    'STATISTICS', 'ZOOLOGY', 'BIOTECHNOLOGY', 'MICROBIOLOGY'
+]
+
+for dept_name in departments_science:
+    Department.objects.get_or_create(stream=science_stream, name=dept_name)
+
+# Create Department objects for Commerce Stream if they don't exist
+departments_commerce = ['B.COM/M.COM', 'BBA']
+
+for dept_name in departments_commerce:
+    Department.objects.get_or_create(stream=commerce_stream, name=dept_name)
+
+# Create Department objects for Arts Stream if they don't exist
+departments_arts = [
+    'ECONOMICS', 'EDUCATION', 'ENGLISH', 'GEOGRAPHY',
+    'GERMAN', 'HINDI', 'HISTORY', 'MARATHI',
+    'PHILOSOPHY', 'PHYSICAL EDUCATION', 'POLITICAL SCIENCE',
+    'PSYCHOLOGY', 'SANSKRIT', 'SOCIOLOGY'
+]
+
+for dept_name in departments_arts:
+    Department.objects.get_or_create(stream=arts_stream, name=dept_name)
+
+#-----------------------------------------------------------------------------------------------------
+
+# Create DocumentCategory objects if they don't exist
+document_categories = [
+    'Academics',
+    'Exam',
+    'Extracurricular',
+    'Placements'
+]
+
+for category_name in document_categories:
+    DocumentCategory.objects.get_or_create(name=category_name)
+
+# Create DocumentType objects for Academics category if they don't exist
+academics_types = [
+    'Syllabus',
+    'Research'
+]
+
+academics_category = DocumentCategory.objects.get(name='Academics')
+
+for type_name in academics_types:
+    DocumentType.objects.get_or_create(documentCategory=academics_category, name=type_name)
+
+# Create DocumentType objects for Exam category if they don't exist
+exam_types = [
+    'Time Table',
+    'Result'
+]
+
+exam_category = DocumentCategory.objects.get(name='Exam')
+
+for type_name in exam_types:
+    DocumentType.objects.get_or_create(documentCategory=exam_category, name=type_name)
+
+# Create DocumentType objects for Extracurricular category if they don't exist
+extracurricular_types = [
+    'Arts Circle',
+    'NSS',
+    'NCC',
+    'Debating Union',
+    'Sports',
+    'Others'
+]
+
+extracurricular_category = DocumentCategory.objects.get(name='Extracurricular')
+
+for type_name in extracurricular_types:
+    DocumentType.objects.get_or_create(documentCategory=extracurricular_category, name=type_name)
+
+# Create DocumentType objects for Placements category if they don't exist
+placements_types = [
+    'OJT Letter',
+    'Offer Letter',
+    'Certificates',
+    'Others'
+]
+
+placements_category = DocumentCategory.objects.get(name='Placements')
+
+for type_name in placements_types:
+    DocumentType.objects.get_or_create(documentCategory=placements_category, name=type_name)

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2 class="my-4">Choose option</h2>
+  
+  <form method="post" action="/">
+    {% csrf_token %}
+
+    <div class="form-group my-4 col-sm-4">
+      <div class="btn-group" role="group" aria-label="Choice Buttons">
+        <button type="submit" name="choice" value="view_documents" class="btn btn-primary mx-4 rounded-pill">View Documents</button>
+        <button type="submit" name="choice" value="upload_document" class="btn btn-primary mx-4 rounded-pill">Upload Document</button>
+      </div>
+    </div>
+
+  </form>
+{% endblock %}

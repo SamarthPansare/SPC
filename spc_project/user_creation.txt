@@ -1,0 +1,71 @@
+def create_demo_users():
+    # Data for demo users
+    users_data = [
+        # Students
+        {
+            'username': f'student{i}',
+            'email': f'student{i}@example.com',
+            'password': 'password',
+            'user_type': 'student',
+            'profile_data': {
+                'PRN': f'PRN{i:04d}',
+                'department': Department.objects.get(name='Science'),  # Update department as needed
+                'student_class': '12th',
+                'student_div': 'A',
+                'batch_year': 2023
+            }
+        } for i in range(1, 6)
+    ] + [
+        # Teachers
+        {
+            'username': f'teacher{i}',
+            'email': f'teacher{i}@example.com',
+            'password': 'password',
+            'user_type': 'teacher',
+            'profile_data': {
+                'department': Department.objects.get(name='Commerce')  # Update department as needed
+            },
+            'roles': ['HOD', 'Assistant Professor'] if i == 1 else ['Lecturer']
+        } for i in range(1, 4)
+    ] + [
+        # Non-Teaching Staff
+        {
+            'username': f'staff{i}',
+            'email': f'staff{i}@example.com',
+            'password': 'password',
+            'user_type': 'non_teaching_staff',
+            'profile_data': {
+                'department': Department.objects.get(name='Arts'),  # Update department as needed
+                'designation': 'Clerk' if i == 1 else 'Accountant'
+            }
+        } for i in range(1, 3)
+    ]
+
+    # Create users
+    for user_data in users_data:
+        user, created = CustomUser.objects.get_or_create(
+            username=user_data['username'],
+            defaults={
+                'email': user_data['email'],
+                'password': user_data['password'],
+                'user_type': user_data['user_type']
+            }
+        )
+        if created:
+            if user_data['user_type'] == 'student':
+                UsersStudent.objects.create(user=user, **user_data['profile_data'])
+                print(f"Student {user.username} created.")
+            elif user_data['user_type'] == 'teacher':
+                teacher_profile = UsersTeacher.objects.create(user=user, **user_data['profile_data'])
+                print(f"Teacher {user.username} created.")
+                # Assign roles
+                for role_name in user_data.get('roles', []):
+                    role, _ = Role.objects.get_or_create(name=role_name)
+                    teacher_profile.roles.add(role)
+                print(f"Roles assigned to teacher {user.username}.")
+            elif user_data['user_type'] == 'non_teaching_staff':
+                UsersNonTeachingStaff.objects.create(user=user, **user_data['profile_data'])
+                print(f"Non-Teaching Staff {user.username} created.")
+        else:
+            print(f"User {user.username} already exists.")
+
