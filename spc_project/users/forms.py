@@ -6,6 +6,8 @@ from django import forms
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
 
+from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
+
 from django.contrib.auth.forms import PasswordResetForm as DjangoPasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.translation import gettext_lazy as _
@@ -13,6 +15,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+
 
 
 class CustomLoginForm(AuthenticationForm):
@@ -68,7 +71,7 @@ class UpdateStudentProfileForm(forms.ModelForm):
 class UpdateTeacherProfileForm(forms.ModelForm):
     class Meta:
         model = UsersTeacher
-        fields = ['department', 'roles']  # Add more fields as needed
+        fields = ['stream','department', 'roles']  # Add more fields as needed
 
 class UpdateNonTeachingStaffProfileForm(forms.ModelForm):
     class Meta:
@@ -83,9 +86,7 @@ class UploadFileForm(forms.Form):
 class DocumentUpdateForm(forms.ModelForm):
     class Meta:
         model = Document
-        fields = ['owner_email','name', 'file']  # Include fields that can be updated
-
-
+        fields = ['department', 'documentType', 'owner_email','name', 'file']  # Include fields that can be updated
 
 
 
@@ -153,4 +154,3 @@ class CustomPasswordResetForm(DjangoPasswordResetForm):
                 subject_template_name, email_template_name, context, from_email,
                 user.email, html_email_template_name=html_email_template_name,
             )
-

@@ -1,0 +1,108 @@
+{% extends 'base_dashboard.html' %}
+
+{% block welcome_card %}
+
+{% endblock %}
+
+
+{% block content %}
+  <h2 class="my-4">{{ dept }}</h2>
+
+
+  <div class="container my-4">
+    <h3>My Documents</h3>
+    <table class="table table-bordered table-striped table-hover col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Stream</th>
+          <th scope="col">Department</th>
+          <th scope="col">Owner Email</th>
+          <th scope="col">Document Type</th>
+          <th scope="col">Document</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      {% for doc in my_docs %}
+        <tr>
+          <td>{{ doc.name }}</td>
+          <td>{{ doc.department.stream }}</td>
+          <td>{{ doc.department.name }}</td>
+          <td>{{ doc.owner_email }}</td>
+          <td>{{ doc.documentType }}</td>
+          <td> 
+            {% if doc.file %}
+              <a href='{{ doc.file.url|safe }}' target="_blank">{{ doc.name }}</a>
+            {% else %}
+              No file available
+            {% endif %}
+          </td>
+          <td>
+            <!-- Update button -->
+            <form action="{% url 'update-document' doc.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+            </form>
+
+            <!-- Delete button -->
+            <form action="{% url 'delete-document-confirmation' doc.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <hr class="my-4" />
+
+
+    <h3 class="my-4">All Documents of Department Students</h3>
+    <table class="table table-bordered table-striped table-hover col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Stream</th>
+          <th scope="col">Department</th>
+          <th scope="col">Owner Email</th>
+          <th scope="col">Document Type</th>
+          <th scope="col">Document</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      {% for doc in docs %}
+        <tr>
+          <td>{{ doc.name }}</td>
+          <td>{{ doc.department.stream }}</td>
+          <td>{{ doc.department.name }}</td>
+          <td>{{ doc.owner_email }}</td>
+          <td>{{ doc.documentType }}</td>
+          <td> 
+            {% if doc.file %}
+              <a href='{{ doc.file.url|safe }}' target="_blank">{{ doc.name }}</a>
+            {% else %}
+              No file available
+            {% endif %}
+          </td>
+          <td>
+            <!-- Update button -->
+            <form action="{% url 'update-document' doc.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+            </form>
+
+            <!-- Delete button -->
+            <form action="{% url 'delete-document-confirmation' doc.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <hr class="my-4" />
+  </div>
+    {% endblock %}

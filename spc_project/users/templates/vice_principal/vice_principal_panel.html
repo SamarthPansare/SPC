@@ -1,0 +1,25 @@
+
+{% extends 'base_dashboard.html' %}
+
+{% block welcome_card %}
+
+{% endblock %}
+
+
+{% block content %}
+<div class="row mb-4">
+  <h1 class="card-title mb-4">Departments</h1>
+  <hr class="row my-4">
+    {% for department in departments %}
+      <div class="col-md-4 mb-4">
+        <a href="{% url 'department_data' department.id %}" class="text-decoration-none">
+          <div class="card shadow p-3 bg-info rounded">
+            <div class="card-body">
+              <h5 class="card-title text-success border-bottom">{{ department.name }}</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

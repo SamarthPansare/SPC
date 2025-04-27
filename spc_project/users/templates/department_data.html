@@ -1,0 +1,191 @@
+{% extends 'base_dashboard.html' %}
+
+{% block welcome_card %}
+{% endblock %}
+
+
+{% block content %}
+
+
+  <div class="container mt-4">
+    <h2 class="my-4">{{ department.name }}</h2>
+    <h3>Select Data Type:</h3>
+    <form method="post">
+      {% csrf_token %}
+      <select name="data_type" class="form-select" onchange="this.form.submit()">
+        <option value="None">Select</option>
+        <option value="documents" {% if data_type == 'documents' %}selected{% endif %}>Documents</option>
+        <option value="teachers" {% if data_type == 'teachers' %}selected{% endif %}>Teachers</option>
+        <option value="non_teaching_staff" {% if data_type == 'non_teaching_staff' %}selected{% endif %}>Non-Teaching Staff</option>
+        <option value="students" {% if data_type == 'students' %}selected{% endif %}>Students</option>
+      </select>
+    </form>
+    <hr class="my-4">
+
+    <h3 class="my-4">{{ data_type.upper }}</h3>
+    <div id="data">
+      {% if data_type != None %}
+  
+        {% if department_data %}
+        
+        <div class="container my-4">
+        {% if data_type == 'students' %}
+        <table class="table table-bordered table-striped table-hover col-sm-12">
+          <thead>
+            <tr>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">UserName</th>
+              <th scope="col">PRN</th>
+              <th scope="col">Email</th>
+              <th scope="col">Batch Year</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+    
+          {% for student in department_data %}
+            <tr>
+              <td>{{ student.user.username }}</td>
+              <td>{{ student.user.first_name }}</td>
+              <td>{{ student.user.last_name }}</td>
+              <td>{{ student.PRN }}</td>
+              <td>{{ student.user.email }}</td>
+              <td>{{ student.batch_year }}</td>
+              <td>
+                <!-- Update button -->
+                <form action="{% url 'update-student' student.user.id %}" method="post" style="display: inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+
+
+        {% elif data_type == 'documents' %}
+        <table class="table table-bordered table-striped table-hover col-sm-12">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Stream</th>
+              <th scope="col">Department</th>
+              <th scope="col">Owner Email</th>
+              <th scope="col">Document Type</th>
+              <th scope="col">Document</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+    
+          {% for doc in department_data %}
+            <tr>
+              <td>{{ doc.name }}</td>
+              <td>{{ doc.department.stream }}</td>
+              <td>{{ doc.department.name }}</td>
+              <td>{{ doc.owner_email }}</td>
+              <td>{{ doc.documentType }}</td>
+              <td> 
+                {% if doc.file %}
+                  <a href='{{ doc.file.url|safe }}' target="_blank">{{ doc.name }}</a>
+                {% else %}
+                  No file available
+                {% endif %}
+              </td>
+              <td>
+                <!-- Update button -->
+                <form action="{% url 'update-document' doc.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                </form>
+    
+                <!-- Delete button -->
+                <form action="{% url 'delete-document-confirmation' doc.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+            </tr>
+          {% endfor %}
+        </table>
+        
+        {% elif data_type == 'teachers' %}
+        <table class="table table-bordered table-striped table-hover col-sm-12">
+            <thead>
+              <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">UserName</th>
+                <th scope="col">Email</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+      
+            {% for teacher in department_data %}
+              <tr>
+                <td>{{ teacher.user.first_name }}</td>
+                <td>{{ teacher.user.last_name }}</td>
+                <td>{{ teacher.user.username }}</td>
+                <td>{{ teacher.user.email }}</td>
+                <td>
+                    {% for role in teacher.roles.all %}
+                        {{ role.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                  <!-- Update button -->
+                  <form action="{% url 'update-teacher' teacher.user.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+        </table>
+        
+        {% elif data_type == 'non_teaching_staff' %}
+        <table class="table table-bordered table-striped table-hover col-sm-12">
+              <thead>
+                <tr>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">UserName</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Designation</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+        
+              {% for staff in department_data %}
+                <tr>
+                  <td>{{ staff.user.first_name }}</td>
+                  <td>{{ staff.user.last_name }}</td>
+                  <td>{{ staff.user.username }}</td>
+                  <td>{{ staff.user.email }}</td>
+                  <td>{{ staff.user.designation }}</td>
+                  <td>
+                    <!-- Update button -->
+                    <form action="{% url 'update-staff' staff.user.id %}" method="post" style="display: inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+            {% endif %}
+
+
+            {% else %}
+            <h5>No data to display</h5>
+        
+      {% endif %}
+      {% else %}
+    <h5>Please select an option to display data.</h5>
+    {% endif %}
+
+    </div>
+
+    <hr class="my-4">
+  </div>
+{% endblock %}

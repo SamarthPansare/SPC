@@ -45,6 +45,7 @@ class Role(models.Model):
 
 class UsersTeacher(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='teacher_profile')
+    stream = models.ForeignKey(Stream, on_delete=models.SET_NULL, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
     roles = models.ManyToManyField(Role)  # Many-to-many relationship with Role model
     # Add more fields as needed

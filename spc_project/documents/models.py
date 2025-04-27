@@ -14,6 +14,15 @@ class Stream(models.Model):
         return self.name
 
 
+
+class DocumentCategory(models.Model):
+    name = models.CharField(max_length = 100)
+
+    def __str__(self):
+        return self.name
+
+
+
 class Department(models.Model):
     stream = models.ForeignKey(Stream, on_delete=models.CASCADE)
 
@@ -23,14 +32,6 @@ class Department(models.Model):
 
     def __str__(self):
         return f"{self.stream} - {self.name}"
-
-
-
-class DocumentCategory(models.Model):
-    name = models.CharField(max_length = 100)
-
-    def __str__(self):
-        return self.name
 
 
 class DocumentType(models.Model):
@@ -49,8 +50,8 @@ class Document(models.Model):
     documentType = models.ForeignKey('documents.DocumentType', on_delete=models.CASCADE)
     owner_email = models.EmailField()
     owner_id = models.IntegerField()
-
-    name = models.CharField(max_length = 50)
+    
+    name = models.CharField(max_length = 30)
     file = models.FileField(upload_to='uploads/', max_length=100)
     
     def __str__(self):
