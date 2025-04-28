@@ -1,5 +1,4 @@
 
-```markdown
 # College Document Managenment System
 
 A Django-based web application for managing document operations including student, teacher, and staff records, document management, and user roles.
