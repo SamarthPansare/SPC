@@ -5,7 +5,7 @@ A Django-based web application for managing document operations including studen
 
 ## 🌐 Live Demo (Hosted on PythonAnywhere)
 
-Access the deployed application: [https://samarthpansare.pythonanywhere.com](https://samarthpansare.pythonanywhere.com]
+Access the deployed application: [https://samarthpansare.pythonanywhere.com](https://samarthpansare.pythonanywhere.com)
 
 ### 👥 Demo User Credentials
 
