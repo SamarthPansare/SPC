@@ -1,0 +1,45 @@
+from users.models import CustomUser, UsersNonTeachingStaff
+from documents.models import Department
+
+def create_staff():
+    staff_data = [
+        {
+            'username': 'staff1',
+            'email': 'staff1@school.com',
+            'password': 'staffpass123',
+            'department': 'COMPUTER SCIENCE',
+            'designation': 'Lab Assistant'
+        },
+        {
+            'username': 'staff2',
+            'email': 'staff2@school.com',
+            'password': 'staffpass123',
+            'department': 'MATHEMATICS',
+            'designation': 'Clerk'
+        },
+        {
+            'username': 'staff3',
+            'email': 'staff3@school.com',
+            'password': 'staffpass123',
+            'department': 'PHYSICS',
+            'designation': 'Technical Assistant'
+        },
+        {
+            'username': 'staff4',
+            'email': 'staff4@school.com',
+            'password': 'staffpass123',
+            'department': 'ENGLISH',
+            'designation': 'Librarian'
+        },
+        {
+            'username': 'staff5',
+            'email': 'staff5@school.com',
+            'password': 'staffpass123',
+            'department': 'B.COM/M.COM',
+            'designation': 'Accountant'
+        }
+    ]
+
+    for staff in staff_data:
+        if CustomUser.objects.filter(username=staff['username']).exists():
+            print(f"⚠️ Staff {staff['username']

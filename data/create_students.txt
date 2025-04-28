@@ -1,0 +1,87 @@
+from users.models import CustomUser, UsersStudent
+from documents.models import Department
+
+def create_students():
+    students_data = [
+        {
+            'username': 'student1',
+            'email': 'student1@school.com',
+            'password': 'studentpass123',
+            'PRN': '20230001',
+            'department': 'COMPUTER SCIENCE',
+            'student_class': '12th',
+            'student_div': 'A',
+            'batch_year': 2023
+        },
+        {
+            'username': 'student2',
+            'email': 'student2@school.com',
+            'password': 'studentpass123',
+            'PRN': '20230002',
+            'department': 'MATHEMATICS',
+            'student_class': '11th',
+            'student_div': 'B',
+            'batch_year': 2024
+        },
+        {
+            'username': 'student3',
+            'email': 'student3@school.com',
+            'password': 'studentpass123',
+            'PRN': '20230003',
+            'department': 'PHYSICS',
+            'student_class': '12th',
+            'student_div': 'C',
+            'batch_year': 2023
+        },
+        {
+            'username': 'student4',
+            'email': 'student4@school.com',
+            'password': 'studentpass123',
+            'PRN': '20230004',
+            'department': 'ENGLISH',
+            'student_class': '10th',
+            'student_div': 'A',
+            'batch_year': 2025
+        },
+        {
+            'username': 'student5',
+            'email': 'student5@school.com',
+            'password': 'studentpass123',
+            'PRN': '20230005',
+            'department': 'B.COM/M.COM',
+            'student_class': '12th',
+            'student_div': 'B',
+            'batch_year': 2023
+        }
+    ]
+
+    for student_data in students_data:
+        if CustomUser.objects.filter(username=student_data['username']).exists():
+            print(f"⚠️ Student {student_data['username']} already exists")
+            continue
+            
+        try:
+            department = Department.objects.get(name=student_data['department'])
+            student_user = CustomUser.objects.create_user(
+                username=student_data['username'],
+                email=student_data['email'],
+                password=student_data['password'],
+                user_type='student'
+            )
+            
+            UsersStudent.objects.create(
+                user=student_user,
+                PRN=student_data['PRN'],
+                department=department,
+                student_class=student_data['student_class'],
+                student_div=student_data['student_div'],
+                batch_year=student_data['batch_year']
+            )
+            
+            print(f"✅ Created {student_data['username']} in {department.name} (PRN: {student_data['PRN']})")
+            
+        except Exception as e:
+            print(f"❌ Error creating {student_data['username']}: {str(e)}")
+
+# Run the function
+create_students()

@@ -1,0 +1,72 @@
+from users.models import CustomUser, UsersTeacher, Role
+from documents.models import Department
+
+def create_teachers():
+    teachers_data = [
+        {
+            'username': 'teacher1',
+            'email': 'teacher1@school.com',
+            'password': 'teacherpass123',
+            'department': 'MATHEMATICS',
+            'roles': ['HOD', 'EXAM']
+        },
+        {
+            'username': 'teacher2',
+            'email': 'teacher2@school.com',
+            'password': 'teacherpass123',
+            'department': 'COMPUTER SCIENCE',
+            'roles': ['HOD']
+        },
+        {
+            'username': 'teacher3',
+            'email': 'teacher3@school.com',
+            'password': 'teacherpass123',
+            'department': 'PHYSICS',
+            'roles': ['HOD', 'IQUAC']
+        },
+        {
+            'username': 'teacher4',
+            'email': 'teacher4@school.com',
+            'password': 'teacherpass123',
+            'department': 'ENGLISH',
+            'roles': ['EXAM']
+        },
+        {
+            'username': 'teacher5',
+            'email': 'teacher5@school.com',
+            'password': 'teacherpass123',
+            'department': 'B.COM/M.COM',
+            'roles': ['HOD']
+        }
+    ]
+
+    for teacher_data in teachers_data:
+        if CustomUser.objects.filter(username=teacher_data['username']).exists():
+            print(f"⚠️ Teacher {teacher_data['username']} already exists")
+            continue
+            
+        try:
+            department = Department.objects.get(name=teacher_data['department'])
+            teacher_user = CustomUser.objects.create_user(
+                username=teacher_data['username'],
+                email=teacher_data['email'],
+                password=teacher_data['password'],
+                user_type='teacher'
+            )
+            
+            teacher_profile = UsersTeacher.objects.create(
+                user=teacher_user,
+                department=department
+            )
+            
+            for role_name in teacher_data['roles']:
+                role = Role.objects.get(name=role_name)
+                teacher_profile.roles.add(role)
+            
+            print(f"✅ Created {teacher_data['username']} in {department.name} with roles: {', '.join(teacher_data['roles'])}")
+            
+        except Exception as e:
+            print(f"❌ Error creating {teacher_data['username']}: {str(e)}")
+
+# Run the function
+create_teachers()
